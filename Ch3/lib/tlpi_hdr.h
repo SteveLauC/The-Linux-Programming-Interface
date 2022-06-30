@@ -7,7 +7,7 @@
 #include <unistd.h>          /* Prototypes of commonly used library functions, plus EXIT_SUCCESS and EXIT_FAILURE */
 #include <errno.h>           /* Prototypes for many syscalls */
 #include <string.h>          /* Commonly used string-handling functions */
-// #include "get_num.h"         /* Declares our functions for handling numeric arguments ( getInt(), getLong() ) */
+#include "get_num.h"         /* Declares our functions for handling numeric arguments ( getInt(), getLong() ) */
 #include "error_functions.h" /* Declares our error-handling functions */
 
 typedef enum {
