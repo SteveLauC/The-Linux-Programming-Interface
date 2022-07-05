@@ -28,7 +28,7 @@ bitflags! {
 ///  * `name`: if `name` is not None, it should contain a string identifying the argument in `arg`
 ///
 /// note: only available in `get_num.c`
-pub fn gnFail(fname: &str, msg: &str, arg: Option<&str>, name: Option<&str>) {
+fn gnFail(fname: &str, msg: &str, arg: Option<&str>, name: Option<&str>) {
     eprint!("{} error", fname);
     if let Some(n) = name {
         eprintln!("(in {})", n);
@@ -58,7 +58,7 @@ pub fn gnFail(fname: &str, msg: &str, arg: Option<&str>, name: Option<&str>) {
 ///  return: a long integer
 ///
 ///  note: only available in `get_num.c`
-pub fn getNum(fname: &str, arg: Option<&str>, flags: GnFlag, name: Option<&str>) -> i64 {
+fn getNum(fname: &str, arg: Option<&str>, flags: GnFlag, name: Option<&str>) -> i64 {
     if arg.is_none() || arg.unwrap().is_empty() {
         gnFail(fname, "null or empty string", arg, name);
     }
