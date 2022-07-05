@@ -1,0 +1,1 @@
+/home/steve/Documents/workspace/The-Linux-Programming-Interface/lib/rust_lib/target/debug/librust_lib.rlib: /home/steve/Documents/workspace/The-Linux-Programming-Interface/lib/rust_lib/src/get_num.rs /home/steve/Documents/workspace/The-Linux-Programming-Interface/lib/rust_lib/src/lib.rs

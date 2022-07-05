@@ -12,7 +12,7 @@
  *
  * argument: 
  *  * `fname`: function name, `getLong` or `getInt`
- *  * `msg`: description for the error case
+ *  * `msg`: description of the error case
  *  * `arg`: string containing a number
  *  * `name`: if `name` is not NULL, it should contain a string identifying the argument in `arg`
  *
