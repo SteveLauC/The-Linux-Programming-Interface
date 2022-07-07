@@ -18,19 +18,21 @@
  *
  * note: only available in `get_num.c`
 */
-static void gnFail(const char *fname, const char *msg, const char *arg, const char *name) {
-    fprintf(stderr, "%s error", fname);
+static void gnFail(const char *fname, const char *msg, const char *arg,
+		   const char *name)
+{
+	fprintf(stderr, "%s error", fname);
 
-    if (name != NULL) {
-        fprintf(stderr, "(in %s)", name);
-    }
+	if (name != NULL) {
+		fprintf(stderr, "(in %s)", name);
+	}
 
-    fprintf(stderr, ": %s\n", msg);
+	fprintf(stderr, ": %s\n", msg);
 
-    if (arg != NULL && *arg != '\0') {
-        fprintf(stderr, "     offending text: %s", arg);
-    }
-    exit(EXIT_FAILURE);
+	if (arg != NULL && *arg != '\0') {
+		fprintf(stderr, "     offending text: %s", arg);
+	}
+	exit(EXIT_FAILURE);
 }
 
 /*
@@ -48,39 +50,43 @@ static void gnFail(const char *fname, const char *msg, const char *arg, const ch
  *
  *  note: only available in `get_num.c`
 */
-static long getNum(const char *fname, const char *arg, int flags, const char *name) {
-    long res = 0;
-    // `endptr` will be the address of the first invalid char after the call of `strtol`
-    char *endptr = NULL; 
-    int base = 10;
+static long getNum(const char *fname, const char *arg, int flags,
+		   const char *name)
+{
+	long res = 0;
+	// `endptr` will be the address of the first invalid char after the call of `strtol`
+	char *endptr = NULL;
+	int base = 10;
 
-    if (arg == NULL || *arg == '\0') {
-        gnFail(fname, "null or emtpy string", arg, name);
-    }
+	if (arg == NULL || *arg == '\0') {
+		gnFail(fname, "null or emtpy string", arg, name);
+	}
 
-    base = (flags & GN_ANY_BASE) ? 0 : (flags & GN_BASE_8) ? 8 :
-        (flags & GN_BASE_16) ? 16 : 10;
-   
-    // strtol(3) can return -1 on success, so we need to reset `errno` to 0 before
-    // diagnosing error
-    errno = 0;
-    res = strtol(arg, &endptr, base);
+	base = (flags & GN_ANY_BASE) ? 0 :
+	       (flags & GN_BASE_8)   ? 8 :
+	       (flags & GN_BASE_16)  ? 16 :
+					     10;
 
-    // error handling
-    if (errno != 0) {
-        gnFail(fname, "strtol() failed", arg, name);
-    }
-    if (*endptr != '\0') {
-        gnFail(fname, "nonnumeric characters", arg, name);
-    }
-    if ((flags & GN_NONNEG) && res < 0) {
-        gnFail(fname, "negative value not allowed", arg, name);
-    }
-    if ((flags & GN_GT_0) && res <= 0) {
-        gnFail(fname, "value must be >= 0", arg, name);
-    }
+	// strtol(3) can return -1 on success, so we need to reset `errno` to 0 before
+	// diagnosing error
+	errno = 0;
+	res = strtol(arg, &endptr, base);
 
-    return res;
+	// error handling
+	if (errno != 0) {
+		gnFail(fname, "strtol() failed", arg, name);
+	}
+	if (*endptr != '\0') {
+		gnFail(fname, "nonnumeric characters", arg, name);
+	}
+	if ((flags & GN_NONNEG) && res < 0) {
+		gnFail(fname, "negative value not allowed", arg, name);
+	}
+	if ((flags & GN_GT_0) && res <= 0) {
+		gnFail(fname, "value must be >= 0", arg, name);
+	}
+
+	return res;
 }
 
 /*
@@ -96,8 +102,9 @@ static long getNum(const char *fname, const char *arg, int flags, const char *na
  *
  *  return: a long integer parsed from `arg`
 */
-long getLong(const char *arg, int flags, const char *name) {
-    return getNum("getLong", arg, flags, name);
+long getLong(const char *arg, int flags, const char *name)
+{
+	return getNum("getLong", arg, flags, name);
 }
 
 /*
@@ -112,11 +119,12 @@ long getLong(const char *arg, int flags, const char *name) {
  *
  *  return: an integer parsed from `arg`
 */
-int getInt(const char *arg, int flags, const char *name) {
-    long res_long = getNum("getInt", arg, flags, name);
-    if (res_long > INT_MAX || res_long < INT_MIN) {
-        gnFail("getInt", "integer out of range", arg, name);
-    }
+int getInt(const char *arg, int flags, const char *name)
+{
+	long res_long = getNum("getInt", arg, flags, name);
+	if (res_long > INT_MAX || res_long < INT_MIN) {
+		gnFail("getInt", "integer out of range", arg, name);
+	}
 
-    return (int)res_long;
+	return (int)res_long;
 }

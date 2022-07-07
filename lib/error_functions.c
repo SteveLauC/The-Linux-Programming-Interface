@@ -3,8 +3,6 @@
 #include "tlpi_hdr.h"
 #include "ename.c.inc"
 
-
-
 /*
  * purpose: terminate the program
  *
@@ -17,21 +15,23 @@
  * note: static function
 */
 #ifdef __GNUC__
-__attribute__ ((noreturn))
+__attribute__((noreturn))
 #endif
-static void terminate(Boolean useExit3) {
-    char *s;    
-    /* Dump core if `EF_DUMPCORE` environment variable is defined and is a nonempty
+static void
+terminate(Boolean useExit3)
+{
+	char *s;
+	/* Dump core if `EF_DUMPCORE` environment variable is defined and is a nonempty
      * string; Otherwise, call exit(3) or _exit(2), depanding on the value of 
      * `useExit3` */
-    s = getenv("EF_DUMPCORE");
-    if (s != NULL && *s !='\0') {
-        abort();
-    }else if (useExit3) {
-        exit(EXIT_FAILURE);
-    }else {
-        _exit(EXIT_FAILURE);
-    }
+	s = getenv("EF_DUMPCORE");
+	if (s != NULL && *s != '\0') {
+		abort();
+	} else if (useExit3) {
+		exit(EXIT_FAILURE);
+	} else {
+		_exit(EXIT_FAILURE);
+	}
 }
 
 /* purpose: the underlying error print function
@@ -52,39 +52,34 @@ static void terminate(Boolean useExit3) {
  *  * static function's scope is limited to its compilation unit, which means
  *    you can not call this func from external files
 */
-static void outputError
-(
-    Boolean useErr, 
-    int err, 
-    Boolean flushStdout, 
-    const char *format, 
-    va_list ap) 
+static void outputError(Boolean useErr, int err, Boolean flushStdout,
+			const char *format, va_list ap)
 {
 #define BUF_SIZE 500
-    char buf[BUF_SIZE];
-    char userMsg[BUF_SIZE];
-    char errText[BUF_SIZE];
+	char buf[BUF_SIZE];
+	char userMsg[BUF_SIZE];
+	char errText[BUF_SIZE];
 
-    // construct `userMsg` string, implicitly call `va_arg`
-    vsnprintf(userMsg, BUF_SIZE, format, ap);
+	// construct `userMsg` string, implicitly call `va_arg`
+	vsnprintf(userMsg, BUF_SIZE, format, ap);
 
-    if (useErr) {
-        snprintf(errText, BUF_SIZE, " [%s %s]", 
-                (err > 0 && err <= MAX_ENAME) ? ename[err]: "?UNKNOWN", 
-                strerror(err)
-        );
-    } else {
-        snprintf(errText, BUF_SIZE, ":");
-    }
+	if (useErr) {
+		snprintf(errText, BUF_SIZE, " [%s %s]",
+			 (err > 0 && err <= MAX_ENAME) ? ename[err] :
+							       "?UNKNOWN",
+			 strerror(err));
+	} else {
+		snprintf(errText, BUF_SIZE, ":");
+	}
 
-    // final output string, which consists of `errText` and `userMsg`
-    snprintf(buf, BUF_SIZE, "ERROR%s %s\n", errText, userMsg);
+	// final output string, which consists of `errText` and `userMsg`
+	snprintf(buf, BUF_SIZE, "ERROR%s %s\n", errText, userMsg);
 
-    if (flushStdout) {
-        fflush(stdout);
-    }
-    fputs(buf, stderr);
-    fflush(stderr);
+	if (flushStdout) {
+		fflush(stdout);
+	}
+	fputs(buf, stderr);
+	fflush(stderr);
 }
 
 /*
@@ -98,17 +93,18 @@ static void outputError
  *  note: this func is a variadic function
  *
 */
-void errMsg(const char *format, ...) {
-    va_list argList;
-    int savedErrno;
+void errMsg(const char *format, ...)
+{
+	va_list argList;
+	int savedErrno;
 
-    savedErrno = errno;
+	savedErrno = errno;
 
-    va_start(argList, format);
-    outputError(TRUE, errno, TRUE, format, argList);
-    va_end(argList);
+	va_start(argList, format);
+	outputError(TRUE, errno, TRUE, format, argList);
+	va_end(argList);
 
-    errno = savedErrno;
+	errno = savedErrno;
 }
 
 /*
@@ -121,16 +117,16 @@ void errMsg(const char *format, ...) {
  *
  * note: variadic function
 */
-void errExit(const char *format, ...) {
-    va_list argList;
+void errExit(const char *format, ...)
+{
+	va_list argList;
 
-    va_start(argList, format);
-    outputError(TRUE, errno, TRUE, format, argList);
-    va_end(argList);
+	va_start(argList, format);
+	outputError(TRUE, errno, TRUE, format, argList);
+	va_end(argList);
 
-    terminate(TRUE);
+	terminate(TRUE);
 }
-
 
 /*
  * purpose: print error message and exit
@@ -147,14 +143,15 @@ void errExit(const char *format, ...) {
  *      call.
  * * variadic function
 */
-void err_exit(const char *format, ...) {
-    va_list argList;
+void err_exit(const char *format, ...)
+{
+	va_list argList;
 
-    va_start(argList, format);
-    outputError(TRUE, errno, FALSE, format, argList); // diff1
-    va_end(argList);
+	va_start(argList, format);
+	outputError(TRUE, errno, FALSE, format, argList); // diff1
+	va_end(argList);
 
-    terminate(FALSE);                                 // diff2
+	terminate(FALSE); // diff2
 }
 
 /*
@@ -170,14 +167,15 @@ void err_exit(const char *format, ...) {
  *      so that we can reduce the number of syscalls
  *  * variadic function
 */
-void errExitEN(int errnum, const char *format, ...) {
-    va_list argList;
+void errExitEN(int errnum, const char *format, ...)
+{
+	va_list argList;
 
-    va_start(argList, format);
-    outputError(TRUE, errnum, TRUE, format, argList);
-    va_end(argList);
+	va_start(argList, format);
+	outputError(TRUE, errnum, TRUE, format, argList);
+	va_end(argList);
 
-    terminate(TRUE);
+	terminate(TRUE);
 }
 
 /*
@@ -191,14 +189,15 @@ void errExitEN(int errnum, const char *format, ...) {
  *
  * note: variadic function
 */
-void fatal(const char *format, ...) {
-    va_list argList;
+void fatal(const char *format, ...)
+{
+	va_list argList;
 
-    va_start(argList, format);
-    outputError(FALSE, 0, TRUE, format, argList);
-    va_end(argList);
+	va_start(argList, format);
+	outputError(FALSE, 0, TRUE, format, argList);
+	va_end(argList);
 
-    terminate(TRUE);
+	terminate(TRUE);
 }
 
 /*
@@ -211,18 +210,19 @@ void fatal(const char *format, ...) {
  *
  * note: variadic function
 */
-void usageErr(const char *format, ...) {
-    va_list argList;
+void usageErr(const char *format, ...)
+{
+	va_list argList;
 
-    fflush(stdout); /* flush any pending stdout */
+	fflush(stdout); /* flush any pending stdout */
 
-    fprintf(stderr, "Usage: ");
-    va_start(argList, format);
-    vfprintf(stderr, format, argList);
-    va_end(argList);
+	fprintf(stderr, "Usage: ");
+	va_start(argList, format);
+	vfprintf(stderr, format, argList);
+	va_end(argList);
 
-    fflush(stderr); /* In case stderr is not line-buffered */
-    exit(EXIT_FAILURE);
+	fflush(stderr); /* In case stderr is not line-buffered */
+	exit(EXIT_FAILURE);
 }
 
 /*
@@ -235,17 +235,18 @@ void usageErr(const char *format, ...) {
  *
  * note: variadic function
 */
-void cmdLineErr(const char *format, ...) {
-    va_list argList;
+void cmdLineErr(const char *format, ...)
+{
+	va_list argList;
 
-    fflush(stdout); /* flush any pending stdout */
+	fflush(stdout); /* flush any pending stdout */
 
-    fprintf(stderr, "Command-line usage error: ");
-    va_start(argList, format);
-    vfprintf(stderr, format, argList);
-    va_end(argList);
+	fprintf(stderr, "Command-line usage error: ");
+	va_start(argList, format);
+	vfprintf(stderr, format, argList);
+	va_end(argList);
 
-    fflush(stderr); /* In case stderr is not line-buffered */
+	fflush(stderr); /* In case stderr is not line-buffered */
 
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
