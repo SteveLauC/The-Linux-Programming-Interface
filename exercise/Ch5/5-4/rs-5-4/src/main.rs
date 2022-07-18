@@ -65,6 +65,7 @@ fn my_dup2(oldfd: RawFd, newfd: RawFd) -> Result<RawFd> {
             if new_open_fd == newfd {
                 return Ok(newfd);
             } else {
+                close(new_open_fd).unwrap();
                 return Err(Errno::last());
             }
         }
