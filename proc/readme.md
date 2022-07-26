@@ -13,3 +13,9 @@
    usage: to demonstrate the usage of non-local functions `setjmp` and `longjmp`
 
    reason: these two syscalls are missing in `libc`
+
+3. [setjmp_vars.c](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/setjmp_vars.c)
+
+   usage: to demonstrate the interaction of compiler optimization and longjmp()
+
+   reason: these two syscalls are missing in `libc`
