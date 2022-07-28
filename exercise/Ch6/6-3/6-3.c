@@ -35,22 +35,6 @@ static int allocation(const char *name, const char *value);
 
 int main(void)
 {
-	// int res = my_setenv("a", "b", 0);
-	// printf("return value: %d\n", res);
-	// char **ep = environ;
-	// if (ep != NULL) {
-	// 	while (*ep != NULL) {
-	// 		printf("%s\n", *ep);
-	// 		ep += 1;
-	// 	}
-	// }
-	// printf("\n\n");
-	// const char *p = getenv("a");
-	// if (p != NULL) {
-	// 	printf("value: %s\n", p);
-	// }
-	// return 0;
-
 	assert(my_setenv("a", "a", 0) == 0);
 	const char *value_of_a = getenv("a");
 	assert(value_of_a != NULL);
