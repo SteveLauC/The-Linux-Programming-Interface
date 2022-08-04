@@ -56,14 +56,10 @@ fn main() {
         min, max, step
     );
 
-    let mut i: usize = min - 1;
-    while i < max {
-        unsafe {
-            if !ptr[i].is_null() {
-                dealloc(ptr[i], layout);
-            }
+    for i in ((min - 1)..max).step_by(step) {
+        if !ptr[i].is_null() {
+            unsafe { dealloc(ptr[i], layout) };
         }
-        i += step;
     }
 
     println!("After free(), program break is: {:20p}", unsafe { sbrk(0) });
