@@ -1,5 +1,4 @@
 #include "malloc.h"
-#include <stdio.h>
 
 void allocator_init(Allocator *const p)
 {
@@ -62,7 +61,7 @@ MemSegment allocator_malloc(Allocator *const p, uint64_t size)
 	}
 
 	res.start = sbrk(size);
-	p->cur_program_break += size;
+	p->cur_program_break = (uint64_t)sbrk(0);
 	res.size = size;
 	return res;
 }

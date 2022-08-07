@@ -63,12 +63,12 @@ impl Allocator {
         }
 
         // increase the program break to allocate memory
-        sbrk(isize::try_from(size).expect("overflow happens when converting from usize to isize"))?;
+        let old_program_break: usize = sbrk(
+            isize::try_from(size).expect("overflow happens when converting from usize to isize"),
+        )? as usize;
 
-        let old_program_break: usize = self.cur_program_break;
         self.cur_program_break = sbrk(0)? as usize;
-        let increment: usize = self.cur_program_break - old_program_break;
-        assert!(increment == size);
+        assert_eq!(size + old_program_break, self.cur_program_break);
 
         Ok(MemorySegment::new(
             NonNull::new(old_program_break as *mut c_void).unwrap(),
