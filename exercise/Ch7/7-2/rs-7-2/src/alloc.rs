@@ -1,9 +1,9 @@
 #![deny(missing_docs)]
 
 //! my memory allocator
-use std::{io::Error, os::raw::c_void, ptr::NonNull};
-
-use libc::sbrk;
+use crate::unistd::sbrk;
+use nix::Result;
+use std::{os::raw::c_void, ptr::NonNull};
 
 #[derive(Debug)]
 /// A memory segment
@@ -30,7 +30,7 @@ impl Allocator {
     /// Construct a new memory allocator
     pub fn new() -> Self {
         Allocator {
-            cur_program_break: (unsafe { sbrk(0) }) as usize,
+            cur_program_break: sbrk(0).unwrap() as usize,
             free_list: Vec::new(),
         }
     }
@@ -44,7 +44,7 @@ impl Allocator {
     /// Allocate memory
     ///
     /// The memory returned is **NOT** initialized
-    pub fn malloc(&mut self, size: usize) -> Result<MemorySegment, Error> {
+    pub fn malloc(&mut self, size: usize) -> Result<MemorySegment> {
         // iterate over the free list to find the first memory block whose
         // size can satify our requirements
         if let Some(idx) =
@@ -63,19 +63,10 @@ impl Allocator {
         }
 
         // increase the program break to allocate memory
-        if -1_i32 as *mut c_void
-            == unsafe {
-                sbrk(
-                    isize::try_from(size)
-                        .expect("overflow happens when converting usize to isize in sbrk"),
-                )
-            }
-        {
-            return Err(Error::last_os_error());
-        }
+        sbrk(isize::try_from(size).expect("overflow happens when converting from usize to isize"))?;
 
         let old_program_break: usize = self.cur_program_break;
-        self.cur_program_break = unsafe { sbrk(0) } as usize;
+        self.cur_program_break = sbrk(0)? as usize;
         let increment: usize = self.cur_program_break - old_program_break;
         assert!(increment == size);
 
