@@ -28,5 +28,5 @@ Source code of The Linux Programming Interface.
 #### What can be improved in Exercise
 
 |Chapter|Exercise|Description|Relevant Issue|
-|-------|--------|-----------|
+|-------|--------|-----------|--------------|
 |7|[7-2](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch7/7-2)|The implementation of `free()` can be improved by merging memory fragments|None|
