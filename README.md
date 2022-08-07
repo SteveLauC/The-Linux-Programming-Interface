@@ -1,5 +1,5 @@
 # The-Linue-Programming-Interface
-Source code of The Linux Programming Interface.
+Src of The Linux Programming Interface and its Rust implementation (Exercise included)
 
 #### Chapters and their corresponding directories
 |Chapter|Src Directory|Exercise Directory|
