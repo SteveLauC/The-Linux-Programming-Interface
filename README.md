@@ -14,9 +14,10 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 #### What are unimplemented/skipped in Src
 |Chapter| Name| Reason| Relevant Issue|
 |-------|-----|-------|---------------|
-|6|[mem_segments.c](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/mem_segments.c)|Rust does not allow global variables to be unitialized, thus we can not allocate variable in .bss segment|None|
-|6|[longjmp.c](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/longjmp.c)|Relevant syscalls are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
-|6|[setjmp_vars.c](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/setjmp_vars.c)|Relevant syscalls are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
+|6|[mem_segments.rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/mem_segments.c)|Rust does not allow global variables to be unitialized, thus we can not allocate variable in .bss segment|None|
+|6|[longjmp.rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/longjmp.c)|Relevant syscalls are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
+|6|[setjmp_vars.rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/setjmp_vars.c)|Relevant syscalls are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
+|8|[check_passwords-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/users_groups/check_password-c)|`crypt(3)` is not exposed in `libc`|[#3](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/3)|
 
 
 #### What are unimplemented/skipped in Exercise
