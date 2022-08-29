@@ -10,6 +10,7 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |6|[proc](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/proc)|[Ch6](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch6)|
 |7|[memalloc](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/memalloc)|[Ch7](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch7)|
 |8|[users_groups](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/users_groups)|[Ch8](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch8)|
+|9|[proccred](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/proccred)|[Ch8](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch9)|
 
 #### What are unimplemented/skipped in Src
 |Chapter| Name| Reason| Relevant Issue|

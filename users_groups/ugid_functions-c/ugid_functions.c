@@ -12,8 +12,11 @@ char *userNameFromId(uid_t uid)
 
 /*
  * Return UID corresponding to `name`, or -1 on error
+ *
+ * we use `int64_t` as the return type so that we can use `-1` to denote the error
+ * case
 */
-uid_t userIdFromName(const char *name)
+int64_t userIdFromName(const char *name)
 {
 	// empty string
 	if (name == NULL || *name == '\0') {
@@ -28,7 +31,7 @@ uid_t userIdFromName(const char *name)
 	}
 
 	struct passwd *pwd = getpwnam(name);
-	return (pwd == NULL) ? -1 : pwd->pw_uid;
+	return (pwd == NULL) ? -1 : (int64_t)pwd->pw_uid;
 }
 
 /*
@@ -43,7 +46,7 @@ char *groupNameFromId(gid_t gid)
 /*
  * Return GID corresponding to `name`, or -1 on error
 */
-gid_t groupIdFromName(const char *name)
+int64_t groupIdFromName(const char *name)
 {
 	// empty string
 	if (name == NULL || *name == '\0') {
@@ -58,5 +61,5 @@ gid_t groupIdFromName(const char *name)
 	}
 
 	struct group *grp = getgrnam(name);
-	return (grp == NULL) ? -1 : grp->gr_gid;
+	return (grp == NULL) ? -1 : (int64_t)grp->gr_gid;
 }

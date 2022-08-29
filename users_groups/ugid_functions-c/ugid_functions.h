@@ -3,9 +3,10 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 
 char *userNameFromId(uid_t uid);
-uid_t userIdFromName(const char *name);
+int64_t userIdFromName(const char *name);
 char *groupNameFromId(gid_t gid);
-gid_t groupIdFromName(const char *name);
+int64_t groupIdFromName(const char *name);
