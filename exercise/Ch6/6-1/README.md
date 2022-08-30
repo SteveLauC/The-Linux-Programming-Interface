@@ -1,8 +1,12 @@
-QUESTION: compile the program in listing 6-1 (mem_segments.c), and list its size 
+#### QUESTION
+
+compile the program in listing 6-1 (mem_segments.c), and list its size 
 using ls -l. Although the program contains an array (mbuf) that is around 10 MB
 in size, the executable file is much smaller than this. Why is this?
 
-ANSWER: `mbuf` is a static uninitialized variable, which will be loaded into the
+#### ANSWER
+
+`mbuf` is a static uninitialized variable, which will be loaded into the
 `.bss` section when executed. All things that will go into this section will be
 set to 0 at runtime, so there is no need to store these 0s (empty bytes) in ELF.
 

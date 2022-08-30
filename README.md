@@ -24,7 +24,7 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 #### What are unimplemented/skipped in Exercise
 |Chapter| Exercise| Reason|Relevant Issue|
 |-------|----------|------|--------------|
-|4|4-2|Currently I am not sure about what is a hole and how to create it, for more info, you can check [this post](https://github.com/SteveLauC/blog/issues/1)|None|
+|4|[4-2](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/exercise/Ch4/4-2)|Currently I am not sure about what is a hole and how to create it, for more info, you can check [this post](https://github.com/SteveLauC/blog/issues/1)|None|
 |6|[6-2](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/exercise/Ch6/6-2/6-2.c)|`setjmp` and `longjmp` are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
 |6|[6-3](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/exercise/Ch6/6-3/6-3.c)|We can [not](https://github.com/rust-lang/libc/issues/2520) directly access `environ` in Rust whereas this is necessary to unset the environment variables that are defined multiple times|[#2](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/2)|
 

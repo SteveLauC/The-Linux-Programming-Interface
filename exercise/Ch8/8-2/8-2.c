@@ -1,14 +1,3 @@
-/*
- * Question: 
- * Implement `getpwnam()` using `setpwent()`, `getpwent()`, and `endpwent()`
- *
- * Test:
- * ```shell
- * $ gcc main.c && ./a.out
- * steve
- * ```
-*/
-
 #include <pwd.h>
 #include <sys/types.h>
 #include <stdlib.h>
