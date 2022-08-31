@@ -4,13 +4,15 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 #### Chapters and their corresponding directories
 |Chapter|Src Directory|Exercise Directory|
 |-------|-------------|------------------|
-|3|[lib](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/lib)|[Ch3](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch3)|
-|4|[fileio](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/fileio)|[Ch4](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch4/)|
-|5|[fileio](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/fileio)|[Ch5](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch5)|
-|6|[proc](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/proc)|[Ch6](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch6)|
-|7|[memalloc](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/memalloc)|[Ch7](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch7)|
-|8|[users_groups](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/users_groups)|[Ch8](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch8)|
-|9|[proccred](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/proccred)|[Ch9](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch9)|
+|3 System Programming Concepts|[lib](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/lib)|[Ch3](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch3)|
+|4 File I/O: The Universal I/O Model|[fileio](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/fileio)|[Ch4](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch4/)|
+|5 File I/O: Further Details|[fileio](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/fileio)|[Ch5](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch5)|
+|6 Processes|[proc](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/proc)|[Ch6](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch6)|
+|7 Memory Allocation|[memalloc](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/memalloc)|[Ch7](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch7)|
+|8 Users and Groups|[users_groups](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/users_groups)|[Ch8](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch8)|
+|9 Process Credentials|[proccred](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/proccred)|[Ch9](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch9)|
+
+<!-- |10 Time|[] -->
 
 #### What are unimplemented/skipped in Src
 |Chapter| Name| Reason| Relevant Issue|
