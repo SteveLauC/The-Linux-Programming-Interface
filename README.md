@@ -22,6 +22,7 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |6|[setjmp_vars.rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/setjmp_vars.c)|Relevant syscalls are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
 |8|[check_passwords-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/users_groups/check_password-c)|`crypt(3)` is not exposed in `libc`|[#3](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/3)|
 |10|[calendar_time-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/time/calendar_time.c)| `ctime(3)` and `asctime(3)` are not exposed in `libc`| [#4](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/4)|
+|10|[strtime-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/time/strtime.c)|`struct tm``strftime(3)` and `strptime(3)` are not exposeed in `libc` | [#5](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/5)|
 
 
 #### What are unimplemented/skipped in Exercise
