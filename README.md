@@ -11,8 +11,8 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |7 Memory Allocation|[memalloc](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/memalloc)|[Ch7](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch7)|
 |8 Users and Groups|[users_groups](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/users_groups)|[Ch8](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch8)|
 |9 Process Credentials|[proccred](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/proccred)|[Ch9](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch9)|
+|10 Time|[time](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/time)|[Ch10](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch10)|
 
-<!-- |10 Time|[] -->
 
 #### What are unimplemented/skipped in Src
 |Chapter| Name| Reason| Relevant Issue|
@@ -21,6 +21,7 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |6|[longjmp.rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/longjmp.c)|Relevant syscalls are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
 |6|[setjmp_vars.rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/proc/setjmp_vars.c)|Relevant syscalls are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
 |8|[check_passwords-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/users_groups/check_password-c)|`crypt(3)` is not exposed in `libc`|[#3](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/3)|
+|10|[calendar_time-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/time/calendar_time.c)| `ctime(3)` and `asctime(3)` are not exposed in `libc`| [#4](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/4)|
 
 
 #### What are unimplemented/skipped in Exercise
