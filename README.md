@@ -12,6 +12,7 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |8 Users and Groups|[users_groups](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/users_groups)|[Ch8](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch8)|
 |9 Process Credentials|[proccred](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/proccred)|[Ch9](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch9)|
 |10 Time|[time](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/time)|[Ch10](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch10)|
+|11 System Limits And Options|[syslim](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/syslim)|[Ch11](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch11)|
 
 
 #### What are unimplemented/skipped in Src
