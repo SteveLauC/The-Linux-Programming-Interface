@@ -13,8 +13,8 @@ directory) disappears during the scan of all /proc/PID directories.
 1. process `systemd` with pid `1` and process `kthread` with pid `2` have no parent
 2. `pstree(1)` prints a tree with the root of `systemd`, and since `kthread` is not
    a child of `systemd` (it has no parent), it and its child processes are ignored.
-3. The entries returned by `readdir` is ordered by its entry name, which means `systemd`
-   with pid 0 will be the first one.
+3. The entries returned by `readdir(3)` is ordered by its entry name (PID), which 
+   means `systemd` with pid 0 will be the first element of `array`.
 
 #### Verification
 
