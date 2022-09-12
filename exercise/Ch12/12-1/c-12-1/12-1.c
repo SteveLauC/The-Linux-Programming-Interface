@@ -31,6 +31,7 @@ int main(int ac, char *av[])
 			dirent_ptr->d_name);
 		parse_status(status_file_name, uid);
 	}
+	closedir(dir_ptr);
 }
 
 void parse_status(char *status_file, uid_t uid)
@@ -64,4 +65,5 @@ void parse_status(char *status_file, uid_t uid)
 			break;
 		}
 	}
+	fclose(fp);
 }
