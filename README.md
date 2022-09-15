@@ -42,3 +42,4 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |Chapter|Exercise|Description|Relevant Issue|
 |-------|--------|-----------|--------------|
 |7|[7-2](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch7/7-2)|The implementation of `free()` can be improved by merging memory fragments|None|
+|13|[13-5](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch13/13-5)| The impl has some memory access issues| None|
