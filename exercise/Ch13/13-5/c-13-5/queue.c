@@ -19,7 +19,7 @@ void push(queue *q, char *src, long len)
 	memset(n->data, 0, len + 1);
 
 	memcpy(n->data, src, len);
-	*((n->data) + len + 1) = '\0';
+	*((n->data) + len) = '\0';
 	n->next = NULL;
 
 	if (q->head == NULL) {

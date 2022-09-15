@@ -21,24 +21,17 @@ $ ./13.5 13-5.c
 
     clear(&q);
 }
-```
 
-#### Memory issue
-
-The current implementation does not leak memory, but has some memory access 
-issues.
-
-```shell
 $ valgrind --leak-check=yes --track-origins=yes ./13-5 13-5.c
 ...
-==70626== HEAP SUMMARY:
-==70626==     in use at exit: 0 bytes in 0 blocks
-==70626==   total heap usage: 21 allocs, 21 frees, 1,327 bytes allocated
-==70626==
-==70626== All heap blocks were freed -- no leaks are possible
-==70626==
-==70626== For lists of detected and suppressed errors, rerun with: -s
-==70626== ERROR SUMMARY: 10 errors from 1 contexts (suppressed: 0 from 0)
+==76152== HEAP SUMMARY:
+==76152==     in use at exit: 0 bytes in 0 blocks
+==76152==   total heap usage: 21 allocs, 21 frees, 1,327 bytes allocated
+==76152==
+==76152== All heap blocks were freed -- no leaks are possible
+==76152==
+==76152== For lists of detected and suppressed errors, rerun with: -s
+==76152== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
 
 #### Rust Implementation
