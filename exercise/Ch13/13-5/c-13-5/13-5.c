@@ -5,7 +5,7 @@
  * them out and exit when encounters EOF.
  */
 
-#include "list.h"
+#include "queue.h"
 #include "utility.h"
 #include <fcntl.h>
 

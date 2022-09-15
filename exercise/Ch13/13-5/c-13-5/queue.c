@@ -1,4 +1,4 @@
-#include "list.h"
+#include "queue.h"
 
 queue new_queue(void)
 {
