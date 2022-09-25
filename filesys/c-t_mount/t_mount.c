@@ -1,5 +1,5 @@
 #include <sys/mount.h>
-#include "../lib/tlpi_hdr.h"
+#include "../../lib/tlpi_hdr.h"
 #include <stdio.h>
 
 static void usage_error(const char *, const char *);
