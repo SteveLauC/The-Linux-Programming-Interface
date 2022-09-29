@@ -19,12 +19,11 @@ fn my_initgroups(user: &str, group: Gid) -> Result<()> {
     // if `user` exists
     if let Some(user) = User::from_name(user)? {
         groups.push(user.gid);
-        groups.extend_from_slice(
-            &get_all_groups()?
+        groups.extend(
+            get_all_groups()?
                 .iter()
                 .filter(|group: &&Group| group.mem.contains(&user.name))
                 .map(|group: &Group| group.gid)
-                .collect::<Vec<Gid>>(),
         );
     };
     setgroups(&groups)
