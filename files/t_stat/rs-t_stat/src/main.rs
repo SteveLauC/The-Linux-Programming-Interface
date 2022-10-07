@@ -1,16 +1,14 @@
 use std::{
     fs::{metadata, symlink_metadata, Metadata},
-    os::unix::{
-        fs::{FileTypeExt, MetadataExt},
-    },
+    os::unix::fs::{FileTypeExt, MetadataExt},
     path::PathBuf,
-    time::{UNIX_EPOCH, Duration},
+    time::{Duration, UNIX_EPOCH},
 };
 
+use chrono::{DateTime, Local};
 use clap::Parser;
 use libc::{major, minor};
-use unix_mode::{is_setgid, is_setuid, is_sticky, to_string};
-use chrono::{DateTime, Local};
+use unix_permissions_ext::UNIXPermissionsExt;
 
 #[derive(Debug, Parser)]
 struct Config {
@@ -18,7 +16,6 @@ struct Config {
     link: bool,
     file: PathBuf,
 }
-
 
 fn show_time(seconds: i64) -> String {
     let date: DateTime<Local> =
@@ -55,21 +52,13 @@ fn display_stat_info(metadata: &Metadata) {
         )
     }
     println!("I-node number: {}", metadata.ino());
-    let perm_str = to_string(metadata.mode());
-    println!("Mode: {:o} ({})", metadata.mode(), &perm_str[1..]);
+    let permission = metadata.permissions();
+    println!("Mode: {:o} ({})", metadata.mode(), permission.to_string());
     println!(
         "Special bits set: {}{}{}",
-        if is_setuid(metadata.mode()) {
-            "set-UID"
-        } else {
-            ""
-        },
-        if is_setgid(metadata.mode()) {
-            "set-GID"
-        } else {
-            ""
-        },
-        if is_sticky(metadata.mode()) {
+        if permission.set_uid() { "set-UID" } else { "" },
+        if permission.set_gid() { "set-GID" } else { "" },
+        if permission.sticky_bit() {
             "sticky bit"
         } else {
             ""
