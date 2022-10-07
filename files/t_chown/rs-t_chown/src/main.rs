@@ -14,23 +14,23 @@ fn main() {
         exit(1);
     }
 
-    let uid = if av[1] == "-" {
-        None
-    } else if let Some(uid) = user_id_from_name(av[1].as_str()) {
-        Some(uid)
-    } else {
-        eprintln!("No such user ({})", av[1].as_str());
-        exit(1);
-    };
+    let uid = (av[1] != "-").then(|| {
+        if let Some(uid) = user_id_from_name(av[1].as_str()) {
+            uid
+        } else {
+            eprintln!("No such user ({})", av[1].as_str());
+            exit(1);
+        }
+    });
 
-    let gid = if av[2] == "-" {
-        None
-    } else if let Some(gid) = group_id_from_name(av[2].as_str()) {
-        Some(gid)
-    } else {
-        eprintln!("No such group ({})", av[2].as_str());
-        exit(1);
-    };
+    let gid = (av[2] != "-").then(|| {
+        if let Some(gid) = group_id_from_name(av[2].as_str()) {
+            gid
+        } else {
+            eprintln!("No such group ({})", av[2].as_str());
+            exit(1);
+        }
+    });
 
     let mut err_fnd = false;
 
