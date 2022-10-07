@@ -1,7 +1,8 @@
 mod getgrent_r;
-use getgrent_r::get_all_groups;
+
+use getgrent_r::*;
 use nix::{
-    unistd::{getgroups, setgroups, Gid, Group, User},
+    unistd::{getgroups, setgroups, Gid, User},
     Result,
 };
 
@@ -20,10 +21,10 @@ fn my_initgroups(user: &str, group: Gid) -> Result<()> {
     if let Some(user) = User::from_name(user)? {
         groups.push(user.gid);
         groups.extend(
-            get_all_groups()?
-                .iter()
-                .filter(|group: &&Group| group.mem.contains(&user.name))
-                .map(|group: &Group| group.gid)
+            AllGroups::new()
+                .map(|opt_grp| opt_grp.unwrap())
+                .filter(|group| group.mem.contains(&user.name))
+                .map(|group| group.gid),
         );
     };
     setgroups(&groups)

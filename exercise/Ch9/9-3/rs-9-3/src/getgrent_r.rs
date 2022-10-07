@@ -2,45 +2,67 @@
 
 use nix::{
     errno::Errno,
-    libc::{c_char, c_int, endgrent, getgrent_r, group, setgrent, ENOENT, ERANGE},
-    unistd::Group,
+    libc,
+    unistd::{sysconf, Group, SysconfVar},
 };
-use std::{mem::zeroed, ptr::null_mut};
+use std::{mem, ptr};
 
-pub fn get_all_groups() -> Result<Vec<Group>, Errno> {
-    let mut v: Vec<Group> = Vec::new();
+#[cfg(target_os = "linux", target_env = "gnu")]
+pub struct AllGroups;
 
-    let mut gr_buf: group = unsafe { zeroed() };
-    let mut gr_str_buf: [c_char; 4096] = [0; 4096];
-    unsafe { setgrent() };
+impl AllGroups {
+    pub fn new() -> AllGroups {
+        unsafe {
+            libc::setgrent();
+        }
+        AllGroups
+    }
+}
 
-    loop {
-        let mut result: *mut group = null_mut();
-        let res: c_int = unsafe {
-            getgrent_r(
-                &mut gr_buf as *mut group,
-                &mut gr_str_buf as *mut c_char,
-                4096,
-                &mut result as *mut *mut group,
+impl Drop for AllGroups {
+    fn drop(&mut self) {
+        unsafe {
+            libc::endgrent();
+        }
+    }
+}
+
+impl Iterator for AllGroups {
+    type Item = Result<Group, Errno>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut grp = mem::MaybeUninit::<libc::group>::uninit();
+        let str_buf_size = match sysconf(SysconfVar::GETGR_R_SIZE_MAX) {
+            Ok(Some(n)) => n as usize,
+            Err(_) | Ok(None) => 4096,
+        };
+        let mut str_buf = Vec::with_capacity(str_buf_size);
+        let mut res: *mut libc::group = ptr::null_mut();
+        let ret = unsafe {
+            libc::getgrent_r(
+                grp.as_mut_ptr(),
+                str_buf.as_mut_ptr(),
+                str_buf_size,
+                &mut res as *mut *mut libc::group,
             )
         };
 
+        // encounters an error
+        if ret != 0 && ret != libc::ENOENT && res.is_null() {
+            return Some(Err(Errno::from_i32(ret)));
+        }
+
+        // Now, all we need to do is to distinguish the successful case and
+        // the case where there are no more entries. Luckily, we can do this
+        // through `res`.
+
         // no more entries
-        if res == ENOENT {
-            unsafe { endgrent() };
-            break;
+        if res.is_null() {
+            None
+        } else {
+            // successful case
+            let grp = unsafe { grp.assume_init() };
+            Some(Ok(Group::from(&grp)))
         }
-
-        // error
-        if res == ERANGE {
-            return Err(Errno::from_i32(ERANGE));
-        }
-
-        // man page for `getgrent_r` only lists the two above error cases.
-        // In other cases, it should be successful.
-        assert_eq!(res, 0);
-        v.push(Group::from(&gr_buf));
     }
-
-    Ok(v)
 }
