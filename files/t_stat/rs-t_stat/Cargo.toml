@@ -9,4 +9,4 @@ edition = "2021"
 chrono = "0.4.22"
 clap = { version = "4.0.8", features = ["derive"] }
 libc = "0.2.134"
-unix_permissions_ext = { version = "0.1.1", features = ["to-string"] }
+unix_permissions_ext = "0.1.2"

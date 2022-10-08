@@ -53,7 +53,7 @@ fn display_stat_info(metadata: &Metadata) {
     }
     println!("I-node number: {}", metadata.ino());
     let permission = metadata.permissions();
-    println!("Mode: {:o} ({})", metadata.mode(), permission.to_string());
+    println!("Mode: {:o} ({})", metadata.mode(), permission.stringify());
     println!(
         "Special bits set: {}{}{}",
         if permission.set_uid() { "set-UID" } else { "" },

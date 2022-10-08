@@ -1,13 +1,14 @@
-use nix::{
-    fcntl::{open, OFlag},
-    sys::stat::{umask, Mode},
-    unistd::mkdir,
-};
 use std::{
     fs::{metadata, remove_dir, remove_file},
     os::unix::fs::PermissionsExt,
 };
-use unix_mode::to_string;
+
+use nix::{
+    fcntl::{OFlag, open},
+    sys::stat::{Mode, umask},
+    unistd::mkdir,
+};
+use unix_permissions_ext::raw_fn::*;
 
 const MY_FILE: &str = "myfile";
 const MY_DIR: &str = "mydir";
@@ -34,16 +35,13 @@ fn main() {
         .permissions()
         .mode();
 
-    println!(
-        "Requested file perms: {}",
-        &to_string(FILE_PERMS.bits())[1..]
-    );
-    println!("Process umask: {}", &to_string(UMASK_SETTING.bits())[1..]);
-    println!("Actual file perms: {}", &to_string(file_perm)[1..]);
+    println!("Requested file perms: {}", stringify(FILE_PERMS.bits()));
+    println!("Process umask: {}", stringify(UMASK_SETTING.bits()));
+    println!("Actual file perms: {}", stringify(file_perm));
 
-    println!("Requested dir perms: {}", &to_string(DIR_PERMS.bits())[1..]);
-    println!("Process umask: {}", &to_string(UMASK_SETTING.bits())[1..]);
-    println!("Actual dir perms: {}", &to_string(dir_perm)[1..]);
+    println!("Requested dir perms: {}", stringify(DIR_PERMS.bits()));
+    println!("Process umask: {}", stringify(UMASK_SETTING.bits()));
+    println!("Actual dir perms: {}", stringify(dir_perm));
 
     remove_file(MY_FILE).expect("can not delete file");
     remove_dir(MY_DIR).expect("can not delete dir");
