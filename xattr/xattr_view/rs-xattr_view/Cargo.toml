@@ -1,0 +1,9 @@
+[package]
+name = "rs-xattr_view"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+clap = { version = "4.0.15", features = ["derive"] }
+nix = { git = "https://github.com/SteveLauC/nix", branch = "xattr-syscalls-on-Android-and-Linux", defaut-features = false, features = ["xattr"] }
