@@ -1,0 +1,13 @@
+[package]
+name = "rs-impl"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "4.0.17", features = ["derive"] }
+posix-acl = "1.1.0"
+unix_permissions_ext = "0.1.2"
+ugid_functions-rs = { version = "0.1.0", path = "../../../../users_groups/ugid_functions-rs" }
+libc = "0.2.135"
