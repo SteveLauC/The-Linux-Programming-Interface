@@ -1,7 +1,9 @@
 use std::{
     env::args,
+    ffi::OsString,
     fs::{remove_file, File},
     io::Write,
+    os::unix::ffi::OsStringExt,
     process::{exit, Command},
 };
 
@@ -31,12 +33,20 @@ fn main() {
     remove_file(temp_file.as_str()).expect("can not delete file");
 
     for _ in 0..num_blks {
-        file.write(&buf).unwrap().eq(&BUF_SIZE);
+        assert!(file.write(&buf).unwrap().eq(&BUF_SIZE));
     }
+
+    let mut out = Command::new("dirname")
+        .arg(temp_file)
+        .output()
+        .unwrap()
+        .stdout;
+    out.truncate(out.len() - 1);
+    let dir = OsString::from_vec(out);
 
     Command::new("df")
         .arg("-k")
-        .arg(".")
+        .arg(dir.as_os_str())
         .spawn()
         .unwrap()
         .wait()
@@ -47,7 +57,7 @@ fn main() {
 
     Command::new("df")
         .arg("-k")
-        .arg(".")
+        .arg(dir.as_os_str())
         .spawn()
         .unwrap()
         .wait()
