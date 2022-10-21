@@ -6,9 +6,6 @@ fn list_files<P: AsRef<Path>>(path: P) {
     for entry in path.as_ref().read_dir().expect("opendir") {
         let entry = entry.expect("readdir");
         let file_name = entry.file_name();
-        if file_name == "." || file_name == ".." {
-            continue;
-        }
 
         if !is_current {
             print!("{}", path.as_ref().display());
