@@ -19,6 +19,7 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |15 File Attributes|[files](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/files)|[Ch15](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch15)|
 |16 Extended Attributes|[xattr](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/xattr)|[Ch16](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch16)|
 |17 Access Control Lists |[acl](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/acl)|[Ch17](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch17)|
+|18 Directories and Links|[dirs_links](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/dirs_links)|[Ch18](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/exercise/Ch18)|
 
 
 #### What are unimplemented/skipped in Src
