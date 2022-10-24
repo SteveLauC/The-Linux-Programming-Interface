@@ -48,6 +48,7 @@ char *my_realpath(const char *path, char *resolved_path)
 //			}
 //			free(link);
 //		}
+        	free(next_entry);
 	}
 
 	if (resolved_path == NULL) {
