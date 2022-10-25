@@ -3,6 +3,12 @@
 void paths_init(struct Paths *p, const char *parsed, const char *remained)
 {
 	assert(p != NULL);
+
+	// initialized `parsed` and `remained` to 0s though it is fine without
+	// initialization, but to silent valgrind, we have to do this.
+	memset(p->parsed, 0, PATH_MAX);
+	memset(p->remained, 0, PATH_MAX);
+
 	if (parsed == NULL) {
 		p->parsed_len = 0;
 	} else {
@@ -100,29 +106,33 @@ void remained_push_front(struct Paths *paths_p, const char *entry)
 {
 	assert(paths_p != NULL && entry != NULL);
 
-	// filter it first
-	char *entry_after_check = remove_extra_slash(entry);
+	// filter it first, since the contents of a symlink can be messy
+	char *entry_after_filter = remove_extra_slash(entry);
+	int len_of_entry = strlen(entry_after_filter);
 
-	int len_of_entry = strlen(entry_after_check);
 	int len_of_remained =
-		paths_p->remained_after_end - paths_p->remained_start + 1;
-	int total_len =
-		len_of_entry + len_of_remained + 1; // 1 for the middle "/"
+		paths_p->remained_after_end - paths_p->remained_start;
+
+	// 1 extra byte for the middle "/", excluding NUL
+	int total_len = len_of_entry + len_of_remained + 1;
 
 	char buf[total_len];
+	int cursor_of_buf = 0;
 	// concatenation
-	strncpy(buf, entry_after_check, len_of_entry);
-	strncpy(buf + len_of_entry, "/", 1);
-	strncpy(buf + len_of_entry + 1,
+	strncpy(buf + cursor_of_buf, entry_after_filter, len_of_entry);
+	cursor_of_buf += len_of_entry;
+	strncpy(buf + cursor_of_buf, "/", 1);
+	cursor_of_buf += 1;
+	strncpy(buf + cursor_of_buf,
 		(paths_p->remained + paths_p->remained_start), len_of_remained);
 
 	// copy to remained
 	strncpy(paths_p->remained, buf, total_len);
 	// update cursors
 	paths_p->remained_start = 0;
-	paths_p->remained_after_end = total_len - 1;
+	paths_p->remained_after_end = total_len;
 
-	free(entry_after_check);
+	free(entry_after_filter);
 }
 
 // Return `1` is `path` is "/". Otherwise, return `0`.
@@ -168,6 +178,7 @@ char *remove_extra_slash(const char *path)
 	assert(path != NULL);
 
 	int len_of_path = strlen(path);
+	// 1 extra byte for NUL
 	char *buf = malloc(len_of_path + 1);
 	int cursor_of_buf = 0;
 	int cursor_of_path = 0;
@@ -201,31 +212,42 @@ char *remove_extra_slash(const char *path)
 
 // Push `entry` to the `parsed`. `parsed` may be uninitialized.
 //
-// `entry` may be:
+// `entry` can be:
 // 1. "/"
 // 2. "file"
+//
+// `parsed` can be:
+// 1. emtpy (parsed_len = 0)
+// 2. "/" (parsed_len = 1)
+// 3. "/home" (parsed_len > 1)
+//
+// When `parsed` is empty (i.e., `parsed_len` equals to 0), in our usage,
+// `entry` is guaranteed to be "/". If `parsed` is not empty, then we can
+// need to determine whether we need to push a slash first.
 void parsed_push_back(struct Paths *paths_p, const char *entry)
 {
 	assert(paths_p != NULL && entry != NULL);
+	int len_of_entry = strlen(entry);
 
-	char buf[PATH_MAX];
-	int len_of_buf = 0;
-
-	strncpy(buf + len_of_buf, paths_p->parsed, paths_p->parsed_len);
-	len_of_buf += (paths_p->parsed_len);
-
-	buf[len_of_buf++] = '/';
-	strncpy((buf + len_of_buf), entry, strlen(entry));
-	len_of_buf += strlen(entry);
-	buf[len_of_buf] = '\0';
-
-	char *buf_after_clean = remove_extra_slash(buf);
-	len_of_buf = strlen(buf_after_clean);
-
-	strncpy(paths_p->parsed, buf_after_clean, len_of_buf);
-	paths_p->parsed_len = len_of_buf;
-
-	free(buf_after_clean);
+	// parsed is empty
+	if (paths_p->parsed_len == 0) {
+		assert(is_slash(entry));
+		strncpy((paths_p->parsed + paths_p->parsed_len), "/", 1);
+		paths_p->parsed_len += 1;
+	} else if (paths_p->parsed_len == 1) {
+		// parsed is "/"
+		strncpy((paths_p->parsed + paths_p->parsed_len), entry,
+			len_of_entry);
+		paths_p->parsed_len += len_of_entry;
+	} else {
+		// parsed is something like "/home/steve", you need to push a
+		// slash plus entry
+		strncpy((paths_p->parsed + paths_p->parsed_len), "/", 1);
+		paths_p->parsed_len += 1;
+		strncpy((paths_p->parsed + paths_p->parsed_len), entry,
+			len_of_entry);
+		paths_p->parsed_len += len_of_entry;
+	}
 }
 
 // Change `parsed` to its parent directory, and update `parsed_end`

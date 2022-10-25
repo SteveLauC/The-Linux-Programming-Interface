@@ -9,6 +9,7 @@ void test_remained_push_front(void);
 void test_remove_extra_slash(void);
 void test_parsed_push_back(void);
 void test_parsed_cd_to_parent(void);
+void test_realpath(void);
 
 void test_is_absolute(void)
 {
