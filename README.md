@@ -43,7 +43,7 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |6|[6-2](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/exercise/Ch6/6-2)|Rust|`setjmp` and `longjmp` are [missing](https://github.com/rust-lang/libc/issues/1208) in `libc`|[#1](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/1)|
 |6|[6-3](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/exercise/Ch6/6-3)|Rust|We can [not](https://github.com/rust-lang/libc/issues/2520) directly access `environ` in Rust whereas this is necessary to unset the environment variables that are defined multiple times|[#2](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/2)|
 |15|[15-7](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/exercise/Ch15/15-7)|Rust|`FS_*` constants are missing from `libc`|None|
-|17|[15-1](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/exercise/Ch17/17-1)|C|I don' want to touch those `acl_xxx_xxx()` functions|None|
+|17|[17-1](https://github.com/SteveLauC/The-Linux-Programming-Interface/blob/main/exercise/Ch17/17-1)|C|I don' want to touch those `acl_xxx_xxx()` functions|None|
 
 #### What can be improved in Exercise
 
