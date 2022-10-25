@@ -39,3 +39,5 @@ lrwxrwxrwx      1    6 steve steve 24 Oct 08:43  mylink -> myfile
 $ l myfile
 "myfile": No such file or directory (os error 2)
 ```
+
+A correct command to create `mylink` would be `ln -s test/myfile ../mylink`.
