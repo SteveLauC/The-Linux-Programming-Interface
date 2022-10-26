@@ -13,75 +13,59 @@ use libc::{fchdir, PATH_MAX};
 /// A CWD composer, returns the next path entry
 ///
 /// ##### Example
-/// * `/home/steve` -> `Some(Ok("steve"))`
-/// * `/home` -> `Some(Ok("home"))`
-/// * `/` -> `None`
+/// * `/home/steve` -> `Ok(Some("steve"))`
+/// * `/home` -> `Ok(Some("home"))`
+/// * `/` -> `Ok(None)`
 struct Composer;
 
 impl Composer {
     fn new() -> Self {
         Composer
     }
-}
 
-impl Iterator for Composer {
-    type Item = Result<OsString>;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let cur_dir_metadata = match metadata(".") {
-            Ok(m) => m,
-            Err(e) => return Some(Err(e)),
-        };
-        let parent_metadata = match metadata("..") {
-            Ok(m) => m,
-            Err(e) => return Some(Err(e)),
-        };
+    fn next_component(&mut self) -> Result<Option<OsString>> {
+        let cur_dir_metadata = metadata(".")?;
+        let parent_metadata = metadata("..")?;
 
         // reaches root
         if cur_dir_metadata.st_dev() == parent_metadata.st_dev()
             && cur_dir_metadata.st_ino() == parent_metadata.st_ino()
         {
-            return None;
+            return Ok(None);
         }
 
-        // cd to parent dir
-        if let Err(e) = set_current_dir("..") {
-            return Some(Err(e));
-        }
+        // cd to the parent directory
+        set_current_dir("..")?;
 
-        let dir = match read_dir(".") {
-            Ok(dir) => dir,
-            Err(e) => return Some(Err(e)),
-        };
+        let dir = read_dir(".")?;
 
         for res_entry in dir {
-            let entry = match res_entry {
-                Ok(entry) => entry,
-                Err(e) => return Some(Err(e)),
-            };
-
-            let entry_metadata = match entry.metadata() {
-                Ok(m) => m,
-                Err(e) => return Some(Err(e)),
-            };
+            let entry = res_entry?;
+            let entry_metadata = entry.metadata()?;
 
             if entry_metadata.st_dev() == cur_dir_metadata.st_dev()
                 && entry_metadata.st_ino() == cur_dir_metadata.st_ino()
             {
-                return Some(Ok(entry.file_name()));
+                return Ok(Some(entry.file_name()));
             }
         }
         unreachable!("This is unreachable unless there is something wrong with your file system");
     }
 }
 
+
 pub fn getcwd() -> Result<PathBuf> {
     let cwd = File::open(".")?;
 
-    let comp = Composer::new();
+    let mut comp = Composer::new();
     let mut entries = VecDeque::new();
-    for item in comp {
-        entries.push_front(item?);
+    loop {
+        let opt = comp.next_component()?;
+        match opt {
+            Some(entry) => entries.push_front(entry),
+            // reaches root, exit the loop
+            None => break,
+        }
     }
 
     let mut res = OsString::with_capacity(PATH_MAX as usize);
@@ -89,7 +73,7 @@ pub fn getcwd() -> Result<PathBuf> {
         res.push("/");
         res.push(entry);
     });
-    res.shrink_to_fit();
+
 
     unsafe { fchdir(cwd.as_raw_fd()) };
     Ok(PathBuf::from(res))
