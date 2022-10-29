@@ -26,7 +26,7 @@ static void list_files(const char *dirpath)
 	assert(dirpath != NULL);
 
 	DIR *dir_p = NULL;
-	Boolean is_current = (strncmp(dirpath, ".", strlen(".")) == 0);
+	Boolean is_current = (strcmp(".", dirpath) == 0);
 
 	dir_p = opendir(dirpath);
 	if (dir_p == NULL) {
@@ -48,9 +48,10 @@ static void list_files(const char *dirpath)
 			errMsg("readdir_r");
 		}
 
-		if (strncmp(buf.d_name, ".", strlen(".")) == 0 ||
-		    strncmp(buf.d_name, "..", strlen("..")) == 0) {
-			continue; // skip "." and ".."
+		// skip "." and ".."
+		if (strcmp(".", buf.d_name) == 0 ||
+		    strcmp("..", buf.d_name) ==0 {
+			continue;
 		}
 
 		if (!is_current) {

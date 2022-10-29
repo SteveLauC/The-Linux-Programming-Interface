@@ -60,11 +60,11 @@ char *my_realpath(const char *path, char *resolved_path)
 			fprintf(stderr, "fatal error: can not allocate memory");
 			exit(1);
 		}
-		strncpy(ret, p.parsed, p.parsed_len);
+		memcpy(ret, p.parsed, p.parsed_len);
 		ret[p.parsed_len] = '\0';
 		return ret;
 	} else {
-		strncpy(resolved_path, p.parsed, p.parsed_len);
+		memcpy(resolved_path, p.parsed, p.parsed_len);
 		resolved_path[p.parsed_len] = '\0';
 		return resolved_path;
 	}

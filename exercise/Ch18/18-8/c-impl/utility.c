@@ -57,7 +57,6 @@ int32_t walker_init(TreeWalker *self, const char *path)
 	assert(self != NULL && path != NULL);
 	stack_init(&(self->stack));
 
-
 	Node *root = malloc(sizeof(Node));
 	if (root == NULL) {
 		return -1;
@@ -105,10 +104,10 @@ Node *walker_next(TreeWalker *self)
 		struct dirent *dirent_p = NULL;
 		while ((dirent_p = readdir(dir_p)) != NULL) {
 			// skip . and ..
-			if (strncmp(dirent_p->d_name, ".",
-				    strlen(dirent_p->d_name)) == 0 ||
-			    strncmp(dirent_p->d_name, "..",
-				    strlen(dirent_p->d_name)) == 0) {
+			// We can guarantee `dirent_p->d_name` is NUL-terminated
+			// use `strcmp` instead of `strncmp`
+			if (strcmp(".", dirent_p->d_name) == 0 ||
+			    strcmp("..", dirent_p->d_name) == 0) {
 				continue;
 			}
 

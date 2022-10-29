@@ -80,16 +80,12 @@ char *my_getcwd(void)
 		// copy entry
 		char* write_addr =
 			res + (PATH_MAX - len_of_entry - len_of_filled_bytes);
-		strncpy(write_addr, entry, strlen(entry));
+		memcpy(write_addr, entry, strlen(entry));
 		len_of_filled_bytes += len_of_entry;
 		write_addr -= 1;
 
 		// copy "/"
-		// gcc will report a warning, which is fine.
-		//
-		// warning: ‘strncpy’ output truncated before terminating nul
-		// copying 1 byte from a string of the same length
-		strncpy(write_addr, "/", 1);
+		memcpy(write_addr, "/", 1);
 		len_of_filled_bytes += 1;
 
 		free(entry);

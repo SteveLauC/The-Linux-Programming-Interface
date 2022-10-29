@@ -158,7 +158,7 @@ void test_realpath(void)
 	char *cwd = getcwd(NULL, 0);
 	int len_of_cwd = strlen(cwd);
 	char buf[PATH_MAX];
-	strncpy(buf, cwd, len_of_cwd);
+	memcpy(buf, cwd, len_of_cwd);
 
 	char *res1 = my_realpath("/..", NULL);
 	assert(strncmp(res1, "/", strlen(res1)) == 0);
@@ -173,15 +173,15 @@ void test_realpath(void)
 	free(res3);
 
 	char *res4 = my_realpath("test/path/..", NULL);
-	strncpy(buf + len_of_cwd, "/", 1);
-	strncpy(buf + len_of_cwd + 1, "test", strlen("test"));
+	memcpy(buf + len_of_cwd, "/", 1);
+	memcpy(buf + len_of_cwd + 1, "test", strlen("test"));
 	buf[len_of_cwd + strlen("test") + 1] = '\0';
 	assert(strncmp(buf, res4, strlen(res4)) == 0);
 	free(res4);
 
 	char *res5 = my_realpath("test/../path", NULL);
-	strncpy(buf + len_of_cwd, "/", 1);
-	strncpy(buf + len_of_cwd + 1, "path", strlen("path"));
+	memcpy(buf + len_of_cwd, "/", 1);
+	memcpy(buf + len_of_cwd + 1, "path", strlen("path"));
 	buf[len_of_cwd + strlen("path") + 1] = '\0';
 	assert(strncmp(buf, res5, strlen(res5)) == 0);
 	free(res5);

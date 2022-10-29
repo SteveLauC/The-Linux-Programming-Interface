@@ -13,7 +13,7 @@ void paths_init(struct Paths *p, const char *parsed, const char *remained)
 		p->parsed_len = 0;
 	} else {
 		int len_parsed = strlen(parsed);
-		strncpy(p->parsed, parsed, len_parsed);
+		memcpy(p->parsed, parsed, len_parsed);
 		p->parsed_len = len_parsed;
 	}
 
@@ -22,7 +22,7 @@ void paths_init(struct Paths *p, const char *parsed, const char *remained)
 		p->remained_after_end = 0;
 	} else {
 		int len_remained = strlen(remained);
-		strncpy(p->remained, remained, len_remained);
+		memcpy(p->remained, remained, len_remained);
 		p->remained_after_end = len_remained;
 	}
 }
@@ -43,7 +43,7 @@ void replace_parsed(struct Paths *paths_p, const char *path)
 	paths_p->parsed_len = len;
 
 	// Copy to `parsed`, excluding the tailing NUL
-	strncpy(paths_p->parsed, path, len);
+	memcpy(paths_p->parsed, path, len);
 }
 
 // Return next entry from `paths_p->remained`, and adjust `paths_p->remained_start`
@@ -84,7 +84,7 @@ char *remained_next_entry(struct Paths *paths_p)
 
 		int next_entry_len = idx - start;
 		char *ret = malloc(next_entry_len + 1); // 1 extra byte for NUL
-		strncpy(ret, (paths_p->remained + start), next_entry_len);
+		memcpy(ret, (paths_p->remained + start), next_entry_len);
 		ret[next_entry_len] = '\0'; // add a tailing NUL
 
 		if (paths_p->remained[idx] == '/') {
@@ -119,15 +119,15 @@ void remained_push_front(struct Paths *paths_p, const char *entry)
 	char buf[total_len];
 	int cursor_of_buf = 0;
 	// concatenation
-	strncpy(buf + cursor_of_buf, entry_after_filter, len_of_entry);
+	memcpy(buf + cursor_of_buf, entry_after_filter, len_of_entry);
 	cursor_of_buf += len_of_entry;
-	strncpy(buf + cursor_of_buf, "/", 1);
+	memcpy(buf + cursor_of_buf, "/", 1);
 	cursor_of_buf += 1;
-	strncpy(buf + cursor_of_buf,
-		(paths_p->remained + paths_p->remained_start), len_of_remained);
+	memcpy(buf + cursor_of_buf,
+	       (paths_p->remained + paths_p->remained_start), len_of_remained);
 
 	// copy to remained
-	strncpy(paths_p->remained, buf, total_len);
+	memcpy(paths_p->remained, buf, total_len);
 	// update cursors
 	paths_p->remained_start = 0;
 	paths_p->remained_after_end = total_len;
@@ -232,20 +232,19 @@ void parsed_push_back(struct Paths *paths_p, const char *entry)
 	// parsed is empty
 	if (paths_p->parsed_len == 0) {
 		assert(is_slash(entry));
-		strncpy((paths_p->parsed + paths_p->parsed_len), "/", 1);
+		memcpy((paths_p->parsed + paths_p->parsed_len), "/", 1);
 		paths_p->parsed_len += 1;
 	} else if (paths_p->parsed_len == 1) {
 		// parsed is "/"
-		strncpy((paths_p->parsed + paths_p->parsed_len), entry,
-			len_of_entry);
+		memcpy((paths_p->parsed + paths_p->parsed_len), entry, len_of_entry);
 		paths_p->parsed_len += len_of_entry;
 	} else {
 		// parsed is something like "/home/steve", you need to push a
 		// slash plus entry
-		strncpy((paths_p->parsed + paths_p->parsed_len), "/", 1);
+		memcpy((paths_p->parsed + paths_p->parsed_len), "/", 1);
 		paths_p->parsed_len += 1;
-		strncpy((paths_p->parsed + paths_p->parsed_len), entry,
-			len_of_entry);
+		memcpy((paths_p->parsed + paths_p->parsed_len), entry,
+		       len_of_entry);
 		paths_p->parsed_len += len_of_entry;
 	}
 }
