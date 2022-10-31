@@ -34,7 +34,6 @@ Src of The Linux Programming Interface and its Rust implementation (Exercise inc
 |10|[strtime-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/time/strtime.c)|`strftime(3)` and `strptime(3)` are not exposed in `libc` | [#5](https://github.com/SteveLauC/The-Linux-Programming-Interface/issues/5)|
 |10|[showtime-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/time/show_time.c)|`strftime(3)` and `asctime(3)` are not exposed in `libc` | None |
 |10|[process_time-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/time/process_time.c)|`clock(3)` is not exposed in `libc` | None |
-|18|[nftw_dir_tree-rs](https://github.com/SteveLauC/The-Linux-Programming-Interface/tree/main/dirs_links/nftw_dir_tree)|`nftw(3)` is not exposed in `libc` | None |
 
 
 #### What are unimplemented/skipped in Exercise
