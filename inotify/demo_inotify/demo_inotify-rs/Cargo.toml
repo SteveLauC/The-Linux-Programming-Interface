@@ -1,0 +1,10 @@
+[package]
+name = "demo_inotify-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+inotify = "0.10.0"
+libc = { version = "0.2.137", default-features = false }
