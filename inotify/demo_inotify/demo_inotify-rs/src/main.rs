@@ -30,7 +30,7 @@ fn main() {
 fn display_inotify_event(event: &Event<&OsStr>) {
     print!("    wd = {:?}; ", event.wd);
     if event.cookie != 0 {
-        println!("cookie = {}; ", event.cookie);
+        print!("cookie = {}; ", event.cookie);
     }
     print!("mask = ");
     let mask = event.mask;
