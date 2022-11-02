@@ -98,7 +98,9 @@ monitored subdirectories should be updated accrodingly.
        
 #### Answer
 
-In my implementation, we monitor only one file.
+In my C implementation, we monitor only one file. In the Rust implementation, 
+monitoring multiple files is allowed, though one should be careful not to make
+paths overlap (e.g., "/home" and "/home/steve").
 
 #### Verify
 
