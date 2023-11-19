@@ -17,7 +17,8 @@ represents a file system, the latter has a pointer to `struct inode`, which
 uniquely locates a file within a specific file system. So `struct path` can 
 locate a file.
 
-File descriptor is "closer" to `i-node` when compared to `file name`
+File descriptor is "closer" to `i-node` when compared to `file name` (don't need
+an extra `open()` syscall)
 
 https://github.com/SteveLauC/pic/blob/main/relation_between_fd_and_open_files.jpeg
 
@@ -82,3 +83,26 @@ $ cargo r -q
 chdir takes: 6.562µs
 fchdir takes: 1.382µs
 ```
+
+A `open()` syscall will roughly take:
+
+```rs
+use std::time::Instant;
+use nix::fcntl::{OFlag, open};
+use nix::sys::stat::Mode;
+
+fn main() {
+    let now = Instant::now();
+    let _ = open("Cargo.toml", OFlag::O_RDONLY, Mode::empty()).unwrap();
+
+    println!("{:?}", now.elapsed());
+}
+```
+
+```sh
+$ cargo b -r
+$ ./target/release/rust
+3.046µs
+```
+
+So `chdir()` is equivalent to `open()` + `fchdir()`?
